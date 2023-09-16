@@ -90,6 +90,19 @@ public class BasicItemController {
         return "basic/item";
     } // -> @ModelAttribute 전체(자체)를 생략해도 정상적으로 동작한다.
 
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model){
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable Long itemId, @ModelAttribute Item item){
+        itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}";
+    }
+
     @PostConstruct
     public void init(){
         itemRepository.save(new Item("testA", 10000, 10));
