@@ -60,19 +60,19 @@ public class BasicItemController {
 //    }
 
 //    @PostMapping("/add")
-//    public String addItemV2(@ModelAttribute Item item){
+//    public String addItemV3(@ModelAttribute Item item){
 //        itemRepository.save(item);
 //        return "basic/item";
 //    }
 
 //    @PostMapping("/add")
-//    public String addItemV2(@ModelAttribute("hello") Item item){
+//    public String addItemV4(@ModelAttribute("hello") Item item){
 //        itemRepository.save(item);
 //        return "basic/item";
 //    } -> 오류난다. 왜냐하면 basic/item에서 hello라는 데이터를 요구하지 않기 때문이다.
 
 //    @PostMapping("/add")
-//    public String addItemV2(@ModelAttribute("item") Item item){
+//    public String addItemV5(@ModelAttribute("item") Item item){
 //        itemRepository.save(item);
 //        return "basic/item";
 //    }
@@ -84,11 +84,21 @@ public class BasicItemController {
 //    @ModelAttribute("hello") Item item   ->   이름을 hello로 지정
 //    @ModelAttribute("hello", item);      ->   모델에 hello이름으로 저장
 
+//    @PostMapping("/add")
+//    public String addItemV6(Item item){
+//        itemRepository.save(item);
+//        return "basic/item";
+//    } // -> @ModelAttribute 전체(자체)를 생략해도 정상적으로 동작한다.
+
     @PostMapping("/add")
-    public String addItemV2(Item item){
+    public String addItemV7(Item item){
         itemRepository.save(item);
-        return "basic/item";
-    } // -> @ModelAttribute 전체(자체)를 생략해도 정상적으로 동작한다.
+        return "redirect:/basic/items/"+item.getId();
+//    ->  url은 띄어쓰기나 한글이 들어가면 안되는데
+//      항상 인코딩 해서 넘겨야 한다. id, 숫자는
+//      상관없어서 이번 상황에서는 괜찮지만 이렇게 item.getId()
+//      써주는 것은 위험한 것이다.
+    }
 
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model){
